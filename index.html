@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>照瑚なす 歌のリクエスト表</title>
+<meta name="description" content="照瑚なすさんが歌枠で歌った曲を1曲1行にまとめたリクエスト用リスト。曲名検索・ワンタップでリクエスト文をコピーできます。">
+<meta property="og:title" content="照瑚なす 歌のリクエスト表 🍆">
+<meta property="og:description" content="歌枠で歌った曲のまとめ。検索して、コピーして、チャットに貼るだけでリクエスト完了！">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍆</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f1fa;
+    --bg2: #ffffff;
+    --ink: #3a2d5c;
+    --ink2: #7a6ea0;
+    --line: #e4dcf2;
+    --accent: #8a5fc9;
+    --accent-deep: #6b46a8;
+    --accent-soft: #ede4fb;
+    --nasu: #5b3a8e;
+    --gold: #b8860b;
+    --gold-bg: #fdf3d7;
+    --vc: #c2447e;
+    --vc-bg: #fbe3ef;
+    --ok: #2e7d52;
+    --shadow: 0 2px 10px rgba(100,80,160,.10);
+    --radius: 14px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #17131f;
+      --bg2: #221b2f;
+      --ink: #e8e2f5;
+      --ink2: #a99cc9;
+      --line: #372c4d;
+      --accent: #a583e0;
+      --accent-deep: #c3a8f0;
+      --accent-soft: #2e2344;
+      --nasu: #b394e6;
+      --gold: #e0b84a;
+      --gold-bg: #3a3117;
+      --vc: #f08cba;
+      --vc-bg: #402132;
+      --ok: #6fcf97;
+      --shadow: 0 2px 10px rgba(0,0,0,.35);
+    }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 0 14px 60px; }
+
+  /* ---------- header ---------- */
+  header {
+    background: linear-gradient(135deg, #6b46a8 0%, #8a5fc9 55%, #b98fe8 100%);
+    color: #fff;
+    padding: 30px 16px 22px;
+    text-align: center;
+  }
+  header h1 {
+    font-family: 'Zen Maru Gothic', sans-serif;
+    font-size: clamp(1.3rem, 5vw, 1.9rem);
+    letter-spacing: .06em;
+    text-shadow: 0 2px 8px rgba(50,20,90,.35);
+  }
+  header .sub { font-size: .84rem; opacity: .92; margin-top: 6px; }
+  .stats { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-top: 14px; }
+  .stat {
+    background: rgba(255,255,255,.16);
+    border: 1px solid rgba(255,255,255,.35);
+    border-radius: 50px;
+    padding: 3px 14px;
+    font-size: .8rem;
+    font-weight: 500;
+  }
+
+  /* ---------- how to ---------- */
+  .howto {
+    background: var(--bg2);
+    border: 1.5px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    margin: 16px 0;
+    padding: 14px 16px;
+  }
+  .howto h2 {
+    font-family: 'Zen Maru Gothic', sans-serif;
+    font-size: .95rem;
+    color: var(--accent-deep);
+    margin-bottom: 8px;
+  }
+  .howto ol { list-style: none; display: grid; gap: 6px; }
+  .howto li { font-size: .86rem; display: flex; gap: 8px; align-items: baseline; }
+  .howto .n {
+    flex: 0 0 auto;
+    background: var(--accent);
+    color: #fff;
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: .72rem; font-weight: 700;
+    transform: translateY(3px);
+  }
+  .howto .note { font-size: .76rem; color: var(--ink2); margin-top: 8px; }
+
+  /* ---------- controls ---------- */
+  .controls {
+    position: sticky; top: 0; z-index: 10;
+    background: var(--bg);
+    padding: 10px 0 8px;
+    border-bottom: 1px solid var(--line);
+  }
+  .search-row { display: flex; gap: 8px; }
+  .search-box { position: relative; flex: 1; }
+  .search-box input {
+    width: 100%;
+    padding: 11px 38px 11px 14px;
+    border-radius: 50px;
+    border: 1.5px solid var(--line);
+    background: var(--bg2);
+    color: var(--ink);
+    font-size: 16px; /* prevents iOS zoom */
+    font-family: inherit;
+    outline: none;
+  }
+  .search-box input:focus { border-color: var(--accent); }
+  .search-box .icon { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); opacity: .5; pointer-events: none; }
+  .gacha {
+    flex: 0 0 auto;
+    border: none;
+    border-radius: 50px;
+    background: linear-gradient(135deg, #8a5fc9, #b06fd4);
+    color: #fff;
+    font-family: 'Zen Maru Gothic', sans-serif;
+    font-weight: 700;
+    font-size: .86rem;
+    padding: 0 16px;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+  }
+  .gacha:active { transform: scale(.96); }
+  .chips-row {
+    display: flex; gap: 6px; margin-top: 8px;
+    overflow-x: auto; padding-bottom: 2px;
+    scrollbar-width: none;
+  }
+  .chips-row::-webkit-scrollbar { display: none; }
+  .chip {
+    flex: 0 0 auto;
+    border: 1.5px solid var(--line);
+    background: var(--bg2);
+    color: var(--ink2);
+    border-radius: 50px;
+    padding: 5px 13px;
+    font-size: .8rem;
+    font-family: inherit;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .chip.on { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; }
+  select.chip { appearance: none; }
+  .result-count { font-size: .76rem; color: var(--ink2); margin-top: 6px; }
+
+  /* ---------- song rows ---------- */
+  .list { margin-top: 8px; display: grid; gap: 8px; }
+  .song {
+    background: var(--bg2);
+    border: 1.5px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    transition: border-color .2s;
+  }
+  .song.flash { border-color: var(--gold); box-shadow: 0 0 0 3px var(--gold-bg), var(--shadow); }
+  .song-main {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 10px 10px 14px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .song-info { flex: 1; min-width: 0; }
+  .song-title { font-weight: 700; font-size: .98rem; line-height: 1.4; }
+  .song-artist { font-size: .78rem; color: var(--ink2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .song-badges { flex: 0 0 auto; display: flex; align-items: center; gap: 6px; }
+  .b-rec { font-size: .9rem; }
+  .b-cnt {
+    font-size: .74rem; font-weight: 700;
+    color: var(--accent-deep);
+    background: var(--accent-soft);
+    border-radius: 50px;
+    padding: 2px 9px;
+    white-space: nowrap;
+  }
+  .b-cnt.hot { color: #fff; background: var(--accent); }
+  .copy-btn {
+    flex: 0 0 auto;
+    border: none;
+    background: var(--accent-soft);
+    color: var(--accent-deep);
+    font-family: inherit;
+    font-weight: 700;
+    font-size: .78rem;
+    border-radius: 10px;
+    padding: 10px 12px;
+    cursor: pointer;
+    min-height: 44px;
+  }
+  .copy-btn:active { transform: scale(.94); }
+  .takes { border-top: 1px dashed var(--line); padding: 8px 14px 12px; display: none; }
+  .song.open .takes { display: block; }
+  .takes-label { font-size: .72rem; color: var(--ink2); margin: 4px 0 6px; }
+  .take {
+    display: flex; align-items: center; gap: 8px;
+    padding: 7px 0;
+    text-decoration: none;
+    color: var(--ink);
+    font-size: .82rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .take:last-of-type { border-bottom: none; }
+  .take .play {
+    flex: 0 0 auto;
+    color: var(--accent-deep);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    font-size: .78rem;
+  }
+  .take .stream-t {
+    flex: 1; min-width: 0;
+    color: var(--ink2);
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .take:hover .stream-t { color: var(--accent-deep); }
+  .tag {
+    flex: 0 0 auto;
+    font-size: .68rem; font-weight: 600;
+    border-radius: 50px;
+    padding: 1px 8px;
+  }
+  .tag.vc { background: var(--vc-bg); color: var(--vc); }
+  .tag.note { background: var(--gold-bg); color: var(--gold); }
+  .artist-pick { display: flex; gap: 8px; flex-wrap: wrap; margin: 8px 0 2px; }
+  .artist-pick button {
+    border: 1.5px solid var(--accent);
+    background: var(--bg2);
+    color: var(--accent-deep);
+    border-radius: 50px;
+    padding: 8px 14px;
+    font-family: inherit;
+    font-size: .8rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .empty { text-align: center; color: var(--ink2); padding: 40px 0; font-size: .9rem; }
+
+  /* ---------- sections ---------- */
+  section.extra { margin-top: 34px; }
+  section.extra h2 {
+    font-family: 'Zen Maru Gothic', sans-serif;
+    font-size: 1.05rem;
+    color: var(--accent-deep);
+    margin-bottom: 10px;
+  }
+  .mv-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 10px; }
+  .mv-card {
+    display: flex; flex-direction: column;
+    background: var(--bg2);
+    border: 1.5px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+    text-decoration: none;
+    color: var(--ink);
+    box-shadow: var(--shadow);
+  }
+  .mv-card img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; background: var(--accent-soft); }
+  .mv-card .mv-t { font-size: .8rem; font-weight: 600; padding: 8px 10px; line-height: 1.45; }
+  .pending-box { font-size: .84rem; color: var(--ink2); }
+  .pending-box summary { cursor: pointer; color: var(--accent-deep); font-weight: 600; }
+  .pending-box a { color: var(--accent-deep); word-break: break-all; }
+  .pending-box li { margin: 6px 0 6px 18px; }
+  .csv-box {
+    background: var(--bg2);
+    border: 1.5px solid var(--line);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    font-size: .84rem;
+    box-shadow: var(--shadow);
+  }
+  .csv-box a.dl {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 700;
+    border-radius: 50px;
+    padding: 9px 18px;
+    margin-bottom: 8px;
+    font-size: .84rem;
+  }
+  .csv-box code {
+    background: var(--accent-soft);
+    border-radius: 6px;
+    padding: 1px 6px;
+    font-size: .78rem;
+    word-break: break-all;
+  }
+  footer {
+    margin-top: 40px;
+    padding: 22px 16px 30px;
+    text-align: center;
+    font-size: .78rem;
+    color: var(--ink2);
+    border-top: 1px solid var(--line);
+  }
+  footer a { color: var(--accent-deep); }
+
+  /* ---------- toast ---------- */
+  #toast {
+    position: fixed;
+    left: 50%; bottom: 24px;
+    transform: translate(-50%, 80px);
+    background: var(--nasu);
+    color: #fff;
+    padding: 11px 22px;
+    border-radius: 50px;
+    font-size: .86rem;
+    font-weight: 600;
+    box-shadow: 0 6px 24px rgba(40,20,80,.35);
+    opacity: 0;
+    transition: transform .25s, opacity .25s;
+    z-index: 100;
+    max-width: 92vw;
+    text-align: center;
+  }
+  #toast.show { transform: translate(-50%, 0); opacity: 1; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🍆 照瑚なす 歌のリクエスト表 ♪</h1>
+  <div class="sub">歌枠で歌った曲を 1曲1行 にまとめたよ。同じ曲は1つに集約！</div>
+  <div class="stats" id="stats"></div>
+</header>
+
+<div class="wrap">
+
+  <div class="howto">
+    <h2>🎤 リクエストのしかた（かんたん3ステップ）</h2>
+    <ol>
+      <li><span class="n">1</span><span>下のリストから歌ってほしい曲を探す（検索・ガチャもあるよ）</span></li>
+      <li><span class="n">2</span><span>「コピー」ボタンを押す → リクエスト文がコピーされる</span></li>
+      <li><span class="n">3</span><span>歌枠のチャットにペーストして送信！</span></li>
+    </ol>
+    <div class="note">💡 曲名をタップすると過去の歌唱アーカイブに飛べるよ。リク前に試聴もどうぞ。リストにない曲のリクエストももちろん大歓迎！</div>
+  </div>
+
+  <div class="controls">
+    <div class="search-row">
+      <div class="search-box">
+        <input type="search" id="q" placeholder="曲名・アーティストで検索" autocomplete="off">
+        <span class="icon">🔍</span>
+      </div>
+      <button class="gacha" id="gacha" title="おまかせで1曲選ぶ">🎲 ガチャ</button>
+    </div>
+    <div class="chips-row" id="chips">
+      <button class="chip on" data-f="all">すべて</button>
+      <button class="chip" data-f="rec">🍆おすすめ</button>
+      <button class="chip" data-f="hot">よく歌う曲（3回↑）</button>
+      <button class="chip" data-f="rare">1回だけの曲</button>
+      <button class="chip" data-f="vc">ボイチェン回あり</button>
+      <select class="chip" id="sort">
+        <option value="count">歌った回数順</option>
+        <option value="name">曲名順</option>
+      </select>
+    </div>
+    <div class="result-count" id="rcount"></div>
+  </div>
+
+  <div class="list" id="list"></div>
+  <div class="empty" id="empty" hidden>見つからなかった…けど、リストにない曲のリクエストもきっと喜ぶよ！🍆</div>
+
+  <section class="extra" id="mv-sec">
+    <h2>🎬 Music Video（歌ってみた）</h2>
+    <div class="mv-grid" id="mvs"></div>
+  </section>
+
+  <section class="extra">
+    <h2>📄 スプレッドシート派のあなたへ</h2>
+    <div class="csv-box">
+      <a class="dl" href="songs.csv" download>⬇️ CSVをダウンロード</a>
+      <div>Excel・Googleスプレッドシートでそのまま開けます。<br>
+      Googleスプレッドシートで<b>自動更新の表</b>にしたい場合は、セルA1に：<br>
+      <code id="importdata"></code></div>
+    </div>
+  </section>
+
+  <section class="extra">
+    <h2>ℹ️ このリストについて</h2>
+    <details class="pending-box">
+      <summary>収録範囲と未収録の歌枠（タイムスタンプ整備中）</summary>
+      <p style="margin-top:8px">タイムスタンプが整備済みの歌枠 <b id="ns-streams"></b> 本・のべ <b id="ns-takes"></b> 回の歌唱をまとめています。以下の歌枠はタイムスタンプ整備中のため、この中で歌われた曲はまだリストに入っていません：</p>
+      <ul id="pending-list"></ul>
+    </details>
+  </section>
+
+</div>
+
+<footer>
+  データ元：<a href="https://arnie-pj.github.io/nasu-utamita/" target="_blank" rel="noopener">照瑚なすさん歌みた検索</a>（created by ani さん）のタイムスタンプ記録<br>
+  <a href="https://www.youtube.com/@tereko-nasu" target="_blank" rel="noopener">照瑚なすch -TEREKO NASU-</a> ｜ 最終更新: <span id="updated"></span>
+</footer>
+
+<div id="toast"></div>
+
+<script src="data.js"></script>
+<script>
+const D = window.SONG_DATA;
+const $ = s => document.querySelector(s);
+
+// ---------- helpers ----------
+const streamById = {};
+for (const s of D.streams) streamById[s.id] = s;
+
+const norm = s => (s || '').normalize('NFKC').toLowerCase()
+  .replace(/[〜～~]/g, '').replace(/[\s　]/g, '')
+  .replace(/[、。，,．.・…:;'’"”“!?！?？☆★✕×☓‐‑–—\-ー]/g, '');
+
+function esc(s) {
+  return String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+}
+
+let toastTimer;
+function toast(msg) {
+  const t = $('#toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+async function copyText(text) {
+  try { await navigator.clipboard.writeText(text); return true; }
+  catch {
+    const ta = document.createElement('textarea');
+    ta.value = text; ta.style.cssText = 'position:fixed;opacity:0';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); return true; }
+    catch { return false; }
+    finally { ta.remove(); }
+  }
+}
+
+function reqText(title, artist) {
+  return 'リクエスト：' + title + (artist ? '（' + artist + '）' : '');
+}
+
+// ---------- state ----------
+let filter = 'all';
+let query = '';
+let sortKey = 'count';
+
+function currentSongs() {
+  let arr = D.songs.filter(s => {
+    if (filter === 'rec' && !s.rec) return false;
+    if (filter === 'hot' && s.count < 3) return false;
+    if (filter === 'rare' && s.count !== 1) return false;
+    if (filter === 'vc' && !s.takes.some(t => t.vc)) return false;
+    if (query) {
+      const q = norm(query);
+      const hay = norm(s.title) + '|' + norm(s.artist || '') + '|' + s.key +
+        '|' + s.takes.map(t => norm(t.artist || '')).join('|');
+      if (!hay.includes(q)) return false;
+    }
+    return true;
+  });
+  if (sortKey === 'name') arr = [...arr].sort((a, b) => a.title.localeCompare(b.title, 'ja'));
+  else arr = [...arr].sort((a, b) => b.count - a.count || a.title.localeCompare(b.title, 'ja'));
+  return arr;
+}
+
+// ---------- render ----------
+function takeRow(t) {
+  const st = streamById[t.streamId];
+  const stTitle = (st && st.title) ? st.title : ('歌枠アーカイブ（' + t.streamId + '）');
+  const url = 'https://www.youtube.com/watch?v=' + t.streamId + '&t=' + t.sec + 's';
+  return '<a class="take" href="' + url + '" target="_blank" rel="noopener">' +
+    '<span class="play">▶ ' + esc(t.ts) + '</span>' +
+    '<span class="stream-t">' + esc(stTitle) + '</span>' +
+    (t.rec ? '<span class="b-rec" title="本人おすすめ">🍆</span>' : '') +
+    (t.vc ? '<span class="tag vc">ボイチェン</span>' : '') +
+    (t.note ? '<span class="tag note">' + esc(t.note) + '</span>' : '') +
+    '</a>';
+}
+
+function songCard(s) {
+  const el = document.createElement('article');
+  el.className = 'song';
+  el.dataset.key = s.key;
+  const multi = s.artistList.length > 1;
+  el.innerHTML =
+    '<div class="song-main">' +
+      '<div class="song-info">' +
+        '<div class="song-title">' + esc(s.title) + '</div>' +
+        (s.artist ? '<div class="song-artist">' + esc(s.artist) + '</div>' : '') +
+      '</div>' +
+      '<div class="song-badges">' +
+        (s.rec ? '<span class="b-rec" title="本人おすすめ">🍆</span>' : '') +
+        '<span class="b-cnt' + (s.count >= 5 ? ' hot' : '') + '">' + s.count + '回</span>' +
+      '</div>' +
+      '<button class="copy-btn" aria-label="リクエスト文をコピー">📋 コピー</button>' +
+    '</div>' +
+    '<div class="takes">' +
+      (multi
+        ? '<div class="takes-label">同名の別曲があるよ。どっちか選んでコピーしてね：</div>' +
+          '<div class="artist-pick">' +
+          s.artistList.map(a =>
+            '<button data-artist="' + esc(a) + '">📋 ' + esc(a) + ' 版</button>').join('') +
+          '</div>'
+        : '') +
+      '<div class="takes-label">過去の歌唱（タップで再生）：</div>' +
+      s.takes.map(takeRow).join('') +
+    '</div>';
+
+  el.querySelector('.song-main').addEventListener('click', e => {
+    if (e.target.closest('.copy-btn')) return;
+    el.classList.toggle('open');
+  });
+  el.querySelector('.copy-btn').addEventListener('click', async () => {
+    if (multi) {
+      el.classList.add('open');
+      toast('同名の別曲があるよ！どっちの曲か選んでね');
+      return;
+    }
+    const ok = await copyText(reqText(s.title, s.artistList[0] || null));
+    toast(ok ? '📋 コピーしたよ！チャットに貼ってね' : 'コピーできなかった…手動でお願い！');
+  });
+  el.querySelectorAll('.artist-pick button').forEach(b => {
+    b.addEventListener('click', async () => {
+      const ok = await copyText(reqText(s.title, b.dataset.artist));
+      toast(ok ? '📋 コピーしたよ！チャットに貼ってね' : 'コピーできなかった…手動でお願い！');
+    });
+  });
+  return el;
+}
+
+function render() {
+  const arr = currentSongs();
+  const list = $('#list');
+  list.innerHTML = '';
+  const frag = document.createDocumentFragment();
+  for (const s of arr) frag.appendChild(songCard(s));
+  list.appendChild(frag);
+  $('#empty').hidden = arr.length > 0;
+  $('#rcount').textContent = arr.length + '曲 / 全' + D.stats.songs + '曲';
+}
+
+// ---------- controls ----------
+$('#q').addEventListener('input', e => { query = e.target.value.trim(); render(); });
+document.querySelectorAll('#chips .chip[data-f]').forEach(c => {
+  c.addEventListener('click', () => {
+    document.querySelectorAll('#chips .chip[data-f]').forEach(x => x.classList.remove('on'));
+    c.classList.add('on');
+    filter = c.dataset.f;
+    render();
+  });
+});
+$('#sort').addEventListener('change', e => { sortKey = e.target.value; render(); });
+
+$('#gacha').addEventListener('click', () => {
+  const arr = currentSongs();
+  if (!arr.length) { toast('この条件だと曲がないよ…'); return; }
+  const pick = arr[Math.floor(Math.random() * arr.length)];
+  toast('🎲 これはどう？「' + pick.title + '」');
+  const el = document.querySelector('.song[data-key="' + CSS.escape(pick.key) + '"]');
+  if (el) {
+    document.querySelectorAll('.song.flash').forEach(x => x.classList.remove('flash'));
+    el.classList.add('flash');
+    el.classList.add('open');
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+});
+
+// ---------- static sections ----------
+$('#stats').innerHTML =
+  '<span class="stat">全 ' + D.stats.songs + ' 曲</span>' +
+  '<span class="stat">のべ ' + D.stats.takes + ' 回歌唱</span>' +
+  '<span class="stat">歌枠 ' + D.stats.streams + ' 本ぶん</span>';
+$('#ns-streams').textContent = D.stats.streams;
+$('#ns-takes').textContent = D.stats.takes;
+$('#updated').textContent = D.generatedAt;
+$('#importdata').textContent = '=IMPORTDATA("' + location.origin + location.pathname.replace(/[^/]*$/, '') + 'songs.csv")';
+
+$('#mvs').innerHTML = D.mvs.map(m =>
+  '<a class="mv-card" href="https://www.youtube.com/watch?v=' + m.id + '" target="_blank" rel="noopener">' +
+  '<img loading="lazy" src="https://img.youtube.com/vi/' + m.id + '/mqdefault.jpg" alt="">' +
+  '<span class="mv-t">' + esc(m.title || 'Music Video') + '</span></a>').join('');
+
+$('#pending-list').innerHTML = D.pending.map(p =>
+  '<li><a href="https://www.youtube.com/watch?v=' + p.id + '" target="_blank" rel="noopener">' +
+  esc(p.title || 'https://www.youtube.com/watch?v=' + p.id) + '</a>' +
+  (p.vc ? ' <span class="tag vc">ボイチェン</span>' : '') + '</li>').join('');
+
+render();
+</script>
+</body>
+</html>
